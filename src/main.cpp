@@ -2,59 +2,59 @@
 #include "Circle.h"
 #include "Renderer.h"
 #include "Rectangle.h"
-#include<SDL2/SDL.h>
+#include <SDL2/SDL.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_video.h>
-#include<thread>
+#include <thread>
 
+int main()
+{
 
-int main() {
+  int screen_width = 800, screen_height = 600;
+  SDL_Init(SDL_INIT_VIDEO);
 
-    int screen_width=800,screen_height=600;
-    SDL_Init(SDL_INIT_VIDEO);
+  SDL_Window *window = SDL_CreateWindow("Veccy", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, 0);
+  SDL_Renderer *sdl_renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED); //
 
-    SDL_Window* window=SDL_CreateWindow("Veccy",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,800,600,0);
-    SDL_Renderer* sdl_renderer=SDL_CreateRenderer(window,-1,SDL_RENDERER_ACCELERATED);//
+  Color red = {255, 0, 0, 255};
+  Color green = {0, 255, 0, 255};
+  Color blue = {0, 0, 255, 255};
 
-    Color red={255,0,0,255};
-    Color green={0,255,0,255};
-    Color blue={0,0,255,255};
+  std::vector<BaseLayer *> layers;
+  Circle *c1 = new Circle(400, 300, 50, red, 0.5); // Add a circle
+  layers.push_back(c1);
+  Rectangle *r1 = new Rectangle(100, 100, 3.0, 4.0, 100, 100, green, 1.0); 
+  layers.push_back(r1);
+  Renderer *my_r = new Renderer();
 
-     std::vector<BaseLayer*> layers;
-    Circle* c1=new Circle(400,300,50,red); // Add a circle
-    layers.push_back(c1);
-    Rectangle* r1=new Rectangle(100,100,3.0,4.0,250,250,green); // Add a rectangle
-    layers.push_back(r1);
-    Renderer* my_r=new Renderer();
-
-    bool running=true;
-    SDL_Event e;
-          while(running){
-        while(SDL_PollEvent(&e)){
-            if(e.type==SDL_QUIT)running=false;
-        }
-
-        SDL_SetRenderDrawColor(sdl_renderer,0,0,0,255);
-        SDL_RenderClear(sdl_renderer);
-
-       
-
-      for (auto layer : layers) {
-            layer->update(screen_width, screen_height);
-        }
-         my_r->render(sdl_renderer,800,600,layers);
-        SDL_RenderPresent(sdl_renderer);
-    SDL_Delay(10);
-
-
+  bool running = true;
+  SDL_Event e;
+  while (running)
+  {
+    while (SDL_PollEvent(&e))
+    {
+      if (e.type == SDL_QUIT)
+        running = false;
     }
 
-    SDL_DestroyRenderer(sdl_renderer);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
+    SDL_SetRenderDrawColor(sdl_renderer, 0, 0, 0, 255);
+    SDL_RenderClear(sdl_renderer);
 
+    for (auto layer : layers)
+    {
+      layer->update(screen_width, screen_height);
+    }
+    my_r->render(sdl_renderer, screen_width, screen_height, layers);
+    SDL_RenderPresent(sdl_renderer);
+    SDL_Delay(10);
+  }
 
-    for (auto l : layers) delete l;
+  SDL_DestroyRenderer(sdl_renderer);
+  SDL_DestroyWindow(window);
+  SDL_Quit();
 
-    return 0;
+  for (auto l : layers)
+    delete l;
+
+  return 0;
 }
