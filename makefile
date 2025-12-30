@@ -1,33 +1,34 @@
 # Compiler and flags
 CXX = g++
-CXXFLAGS = -std=c++17 -Wall
-
-# Executable name
+CXXFLAGS = -std=c++17 -Wall -Iinclude
 TARGET = animation_engine
 
-# Source files
-SRCS = main.cpp functions.cpp Circle.cpp Renderer.cpp
+# Directories
+SRC_DIR = src
+INC_DIR = include
+OBJ_DIR = obj
 
-# Object files (automatically derived from SRCS)
-OBJS = $(SRCS:.cpp=.o)
-
-# Header files (for dependency tracking)
-DEPS = functions.h Layer.h Circle.h Renderer.h
+# Source and Object files
+SRCS = $(wildcard $(SRC_DIR)/*.cpp)
+OBJS = $(SRCS:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 
 # Default target
-all: $(TARGET)
+all: $(OBJ_DIR) $(TARGET)
 
-# Link the executable
+# Create the obj directory if it doesn't exist
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
+
+# Link the final executable
 $(TARGET): $(OBJS)
 	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJS)
 
-# Compile source files into object files
-%.o: %.cpp $(DEPS)
+# Compile .cpp files into .o files inside the obj directory
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# Clean up build artifacts
+# Clean up
 clean:
-	rm -f $(OBJS) $(TARGET)
+	rm -rf $(OBJ_DIR) $(TARGET)
 
-# Phony targets
 .PHONY: all clean
