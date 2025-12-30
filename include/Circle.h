@@ -3,16 +3,15 @@
 
 class Circle: public BaseLayer{
 private:
-    double x,y;
     double r;
 public:
-    Circle(double x, double y, double r):x(x),y(y),r(r){}
-    bool isInside(double x, double y)const;
-    char getIcon();
-    void setX(double newX){x=newX;}
-    void setY(double newY){y=newY;}
+    Circle(double x, double y, double r):BaseLayer(x,y,5.0,5.0),r(r){}
+    bool isInside(double x, double y)const override;
+    char getIcon()override;
+
     void setR(double newR){r=newR;}
-    double getX(){return x;}
-    double getY(){return y;}
+
     double getR(){return r;}
+
+    void update(int sw,int sh)override ;
 };

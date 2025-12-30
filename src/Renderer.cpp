@@ -13,7 +13,8 @@ void Renderer::render(SDL_Renderer* renderer,int width, int height, const std::v
         for(int x=0;x<width;x++){
             BaseLayer* topLayer=topmostLayer(layers,x,y);
             if(topLayer){
-                SDL_SetRenderDrawColor(renderer,255,255,255,255);
+                Color c=topLayer->getColor();
+                SDL_SetRenderDrawColor(renderer,c.r,c.g,c.b,c.a);
             }
             else{
                 SDL_SetRenderDrawColor(renderer,0,0,0,255);

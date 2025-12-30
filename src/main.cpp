@@ -23,9 +23,7 @@ int main() {
 
     bool running=true;
     SDL_Event e;
-    double t=0.0;
-    double vx=5.0,vy=5.0;
-    while(running){
+          while(running){
         while(SDL_PollEvent(&e)){
             if(e.type==SDL_QUIT)running=false;
         }
@@ -35,13 +33,7 @@ int main() {
 
         my_r->render(sdl_renderer,800,600,layers);
 
-        if(c1->getX()+c1->getR()>screen_width)vx=-vx;
-        if(c1->getX()-c1->getR()<0)vx=-vx;
-        if(c1->getY()+c1->getR()>screen_height)vy=-vy;
-        if(c1->getY()-c1->getR()<0)vy=-vy;
-        c1->setX(c1->getX()+vx);
-        c1->setY(c1->getY()+vy);
-
+      c1->update(screen_width,screen_height);
         SDL_RenderPresent(sdl_renderer);
     SDL_Delay(10);
 

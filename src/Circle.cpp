@@ -1,9 +1,18 @@
 #include "Circle.h"
 
-bool Circle::isInside(double x, double y)const{
+bool Circle::isInside(double x, double y)const {
     return std::pow(x-this->x,2)+std::pow(y-this->y,2) < std::pow(this->r,2);
 }
 
 char Circle::getIcon(){
     return 'C';
 }
+
+void Circle::update(int sw,int sh) {
+    if(x+r>sw || x-r<0)vx=-vx;
+    if(y+r>sh || y-r<0)vy=-vy;
+    x+=vx;
+    y+=vy;
+}
+
+
