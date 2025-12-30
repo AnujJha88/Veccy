@@ -8,18 +8,19 @@ BaseLayer* topmostLayer(const std::vector<BaseLayer*>& layers,double px, double 
     return nullptr;
 }
 
-void Renderer::render(int width, int height, const std::vector<BaseLayer*>& layers) {
+void Renderer::render(SDL_Renderer* renderer,int width, int height, const std::vector<BaseLayer*>& layers) {
     for(int y=0;y<height;y++){
         for(int x=0;x<width;x++){
             BaseLayer* topLayer=topmostLayer(layers,x,y);
             if(topLayer){
-                std::cout<<topLayer->getIcon();
+                SDL_SetRenderDrawColor(renderer,255,255,255,255);
             }
             else{
-                drawBg();
+                SDL_SetRenderDrawColor(renderer,0,0,0,255);
             }
+       SDL_RenderDrawPoint(renderer,x,y);
+
         }
-        std::cout<<'\n';
     }
 }
 

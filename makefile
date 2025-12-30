@@ -1,8 +1,10 @@
 # Compiler and flags
 CXX = g++
-CXXFLAGS = -std=c++17 -Wall -Iinclude
 TARGET = animation_engine
+SDL_CFLAGS := $(shell sdl2-config --cflags)
+SDL_LIBS   := $(shell sdl2-config --libs)
 
+CXXFLAGS = -std=c++17 -Wall -Iinclude $(SDL_CFLAGS)
 # Directories
 SRC_DIR = src
 INC_DIR = include
@@ -21,7 +23,7 @@ $(OBJ_DIR):
 
 # Link the final executable
 $(TARGET): $(OBJS)
-	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJS)
+	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJS) $(SDL_LIBS)
 
 # Compile .cpp files into .o files inside the obj directory
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp

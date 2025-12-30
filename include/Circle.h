@@ -11,4 +11,8 @@ public:
     char getIcon();
     void setX(double newX){x=newX;}
     void setY(double newY){y=newY;}
+    void setR(double newR){r=newR;}
+    double getX(){return x;}
+    double getY(){return y;}
+    double getR(){return r;}
 };
