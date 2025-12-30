@@ -6,6 +6,11 @@ struct Color
   uint8_t r, g, b, a;
 };
 
+struct BoundingBox{
+  int minX,minY,maxX,maxY;
+};
+
+
 class BaseLayer
 {
 public:
@@ -28,11 +33,21 @@ public:
   double getVX() const { return vx; }
   double getVY() const { return vy; }
   Color getColor() const { return color; }
+  BoundingBox getBbox() const { return bbox; }
+  virtual BoundingBox makebbox(){
+    BoundingBox bb;
+    bb.minX = x;
+    bb.minY = y;
+    bb.maxX = x;
+    bb.maxY = y;
+    return bb;
+  }
 
 protected:
   double x, y, vx, vy;
   Color color;
   double gravity;
+  BoundingBox bbox;
 };
 
 #endif
