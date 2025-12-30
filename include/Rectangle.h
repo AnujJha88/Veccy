@@ -3,7 +3,7 @@ class Rectangle:public BaseLayer{
 private:
     double w,h;
 public:
-    Rectangle(double x, double y, double vx, double vy, double w, double h):BaseLayer(x,y,vx,vy),w(w),h(h){}
+    Rectangle(double x, double y, double vx, double vy, double w, double h,Color c):BaseLayer(x,y,vx,vy,c),w(w),h(h){}
     bool isInside(double px, double py) const override;
     char getIcon() override;
 

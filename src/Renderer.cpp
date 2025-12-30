@@ -15,11 +15,12 @@ void Renderer::render(SDL_Renderer* renderer,int width, int height, const std::v
             if(topLayer){
                 Color c=topLayer->getColor();
                 SDL_SetRenderDrawColor(renderer,c.r,c.g,c.b,c.a);
+                 SDL_RenderDrawPoint(renderer,x,y);
             }
             else{
-                SDL_SetRenderDrawColor(renderer,0,0,0,255);
+                continue;
             }
-       SDL_RenderDrawPoint(renderer,x,y);
+      
 
         }
     }

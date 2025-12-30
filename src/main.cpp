@@ -1,6 +1,7 @@
 #include "functions.h"
 #include "Circle.h"
 #include "Renderer.h"
+#include "Rectangle.h"
 #include<SDL2/SDL.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_video.h>
@@ -15,10 +16,15 @@ int main() {
     SDL_Window* window=SDL_CreateWindow("Veccy",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,800,600,0);
     SDL_Renderer* sdl_renderer=SDL_CreateRenderer(window,-1,SDL_RENDERER_ACCELERATED);//
 
+    Color red={255,0,0,255};
+    Color green={0,255,0,255};
+    Color blue={0,0,255,255};
 
      std::vector<BaseLayer*> layers;
-    Circle* c1=new Circle(400,300,50); // Add a circle
+    Circle* c1=new Circle(400,300,50,red); // Add a circle
     layers.push_back(c1);
+    Rectangle* r1=new Rectangle(100,100,3.0,4.0,250,250,green); // Add a rectangle
+    layers.push_back(r1);
     Renderer* my_r=new Renderer();
 
     bool running=true;
@@ -31,9 +37,12 @@ int main() {
         SDL_SetRenderDrawColor(sdl_renderer,0,0,0,255);
         SDL_RenderClear(sdl_renderer);
 
-        my_r->render(sdl_renderer,800,600,layers);
+       
 
-      c1->update(screen_width,screen_height);
+      for (auto layer : layers) {
+            layer->update(screen_width, screen_height);
+        }
+         my_r->render(sdl_renderer,800,600,layers);
         SDL_RenderPresent(sdl_renderer);
     SDL_Delay(10);
 
