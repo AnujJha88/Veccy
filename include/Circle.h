@@ -7,7 +7,7 @@ private:
     double r;
 
 public:
-    Circle(double x, double y, double r, Color c,double g) : BaseLayer(x, y, 5.0, 5.0, c,g), r(r) {}
+    Circle(double x, double y, double r, Color c,double g) : BaseLayer(x, y, 5.0, 5.0, c,g), r(r) {bbox=makebbox();}
     bool isInside(double x, double y) const override;
     char getIcon() override;
 
@@ -16,4 +16,6 @@ public:
     double getR() { return r; }
 
     void update(int sw, int sh) override;
+
+    BoundingBox makebbox() override;
 };

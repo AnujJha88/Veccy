@@ -34,3 +34,12 @@ void Circle::update(int sw, int sh)
         y=r;
     }
 }
+
+BoundingBox Circle::makebbox(){
+    BoundingBox bb;
+    bb.minX = x-r;
+    bb.minY = y-r;
+    bb.maxX = x+r;
+    bb.maxY = y+r;
+    return bb;
+}

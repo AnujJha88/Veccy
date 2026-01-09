@@ -32,3 +32,12 @@ void Rectangle::update(int sw, int sh)
         y=0;
     }
 }
+
+BoundingBox Rectangle::makebbox(){
+    BoundingBox bb;
+    bb.minX = x;
+    bb.minY = y;
+    bb.maxX = x+w;
+    bb.maxY = y+h;
+    return bb;
+}

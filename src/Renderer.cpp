@@ -13,7 +13,7 @@ BaseLayer *topmostLayer(const std::vector<BaseLayer *> &layers, double px, doubl
 
 Color bgColor = {0, 0, 0, 255};
 Color pixelColor(int x, int y, const std::vector<BaseLayer *> &layers)
-{  
+{
    Color finalColor = {0, 0, 0, 255};
    for(auto layer : layers){
       if(layer->isInside(x, y)){
@@ -51,4 +51,12 @@ void Renderer::render(SDL_Renderer *renderer, int width, int height, const std::
 void Renderer::drawBg()
 {
     std::cout << '.';
+}
+
+
+bool Renderer::BboxCollision(BaseLayer* obj1, BaseLayer* obj2){
+    BoundingBox bbox1=obj1->getBbox();
+    BoundingBox bbox2=obj2->getBbox();
+
+
 }

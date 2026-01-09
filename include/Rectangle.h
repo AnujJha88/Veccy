@@ -5,7 +5,7 @@ private:
     double w, h;
 
 public:
-    Rectangle(double x, double y, double vx, double vy, double w, double h, Color c,double g) : BaseLayer(x, y, vx, vy, c,g ), w(w), h(h) {}
+    Rectangle(double x, double y, double vx, double vy, double w, double h, Color c,double g) : BaseLayer(x, y, vx, vy, c,g ), w(w), h(h) {bbox=makebbox();}
     bool isInside(double px, double py) const override;
     char getIcon() override;
 
@@ -24,4 +24,6 @@ public:
     }
 
     void update(int sw, int sh) override;
+
+    BoundingBox makebbox() override;
 };

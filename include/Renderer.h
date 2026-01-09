@@ -9,6 +9,8 @@ class Renderer
 public:
     void render(SDL_Renderer *renderer, int width, int height, const std::vector<BaseLayer *> &layers);
     void drawBg();
+    bool BboxCollision(BaseLayer* object1, BaseLayer object2);
+
 };
 
 #endif
