@@ -23,7 +23,7 @@ int main()
   std::vector<BaseLayer *> layers;
   Circle *c1 = new Circle(400, 300, 50, red, 0.5); // Add a circle
   layers.push_back(c1);
-  Rectangle *r1 = new Rectangle(100, 100, 3.0, 4.0, 100, 100, green, 1.0); 
+  Rectangle *r1 = new Rectangle(100, 100, 3.0, 4.0, 100, 100, green, 1.0);
   layers.push_back(r1);
   Renderer *my_r = new Renderer();
 
@@ -44,6 +44,14 @@ int main()
     {
       layer->update(screen_width, screen_height);
     }
+
+    for(size_t i=0;i<layers.size();i++){
+            for(size_t j=i+1;j<layers.size();j++){
+                if(my_r->BboxCollision(layers[i],layers[j])){
+                      // now we check the actual collision stuff
+                }
+            }
+        }
     my_r->render(sdl_renderer, screen_width, screen_height, layers);
     SDL_RenderPresent(sdl_renderer);
     SDL_Delay(10);

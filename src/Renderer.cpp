@@ -57,6 +57,29 @@ void Renderer::drawBg()
 bool Renderer::BboxCollision(BaseLayer* obj1, BaseLayer* obj2){
     BoundingBox bbox1=obj1->getBbox();
     BoundingBox bbox2=obj2->getBbox();
+    if (bbox1.maxX < bbox2.minX || bbox1.minX > bbox2.maxX) return false;
+    if (bbox1.maxY < bbox2.minY || bbox1.minY > bbox2.maxY) return false;
 
+    return true; // The boxes overlap!
 
+}
+
+void Renderer::ResolveCollision(BaseLayer* obj1, BaseLayer* obj2){
+    //TODO
+}
+
+bool Renderer::NarrowCollision(BaseLayer* obj1, BaseLayer* obj2){
+    char typeA=obj1->getIcon();
+    char typeB=obj2->getIcon();
+    if(typeA=='C' && typeB=='C'){
+        Circle* c1=static_cast<Circle*>(obj1);
+        Circle* c2=static_cast<Circle*>(obj2);
+        double dx=c1->x-c2->x;
+        double dy=c1->y-c2->y;
+        double dist=dx*dx+dy*dy;
+        double combinedRadius=c1->r+c2->r;
+        return dist<combinedRadius*combinedRadius;
+    }
+    else if(typeA=='R' && typeB=='R') return true;
+    return false;
 }
