@@ -43,12 +43,14 @@ int main()
     for (auto layer : layers)
     {
       layer->update(screen_width, screen_height);
+    layer->setBbox(layer->makebbox());
     }
 
     for(size_t i=0;i<layers.size();i++){
             for(size_t j=i+1;j<layers.size();j++){
                 if(my_r->BboxCollision(layers[i],layers[j])){
                       // now we check the actual collision stuff
+                    my_r->ResolveCollision(layers[i], layers[j]);
                 }
             }
         }

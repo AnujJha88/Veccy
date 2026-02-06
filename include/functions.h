@@ -1,3 +1,4 @@
+#pragma once
 #ifndef FUNCTIONs_H
 #define FUNCTIONs_H
 namespace Interpolators

@@ -1,5 +1,4 @@
 #include "Renderer.h"
-#include "Layer.h"
 
 BaseLayer *topmostLayer(const std::vector<BaseLayer *> &layers, double px, double py)
 {
@@ -66,6 +65,28 @@ bool Renderer::BboxCollision(BaseLayer* obj1, BaseLayer* obj2){
 
 void Renderer::ResolveCollision(BaseLayer* obj1, BaseLayer* obj2){
     //TODO
+    //Need to do normal calculation for collision
+    //then reverse the speeds along the normal so that's more weird math in code
+    double dx=obj1->getX()-obj2->getX();
+    double dy=obj1->getY()-obj2->getY();
+
+    double distance= sqrt(dx*dx+dy*dy);
+    double normalX=dx/distance;
+    double normalY=dy/distance;
+
+    double relativeVelocityX=obj1->getVX()-obj2->getVX();
+    double relativeVelocityY=obj1->getVY()-obj2->getVY();
+
+    double projectedVelocity=normalX*relativeVelocityX+normalY*relativeVelocityY;//dot product of normal with the re;ative vel.
+
+    if ( projectedVelocity> 0) return;
+    double restitution=0.9f;
+    double impulse=-(1.0+restitution)*projectedVelocity;
+    impulse/=2;//(equal masses)
+    obj1->setVX(obj1->getVX()+normalX*impulse);
+    obj1->setVY(obj1->getVY()+normalY*impulse);
+    obj2->setVX(obj2->getVX()-normalX*impulse);
+    obj2->setVY(obj2->getVY()-normalY*impulse);
 }
 
 bool Renderer::NarrowCollision(BaseLayer* obj1, BaseLayer* obj2){
@@ -74,10 +95,23 @@ bool Renderer::NarrowCollision(BaseLayer* obj1, BaseLayer* obj2){
     if(typeA=='C' && typeB=='C'){
         Circle* c1=static_cast<Circle*>(obj1);
         Circle* c2=static_cast<Circle*>(obj2);
-        double dx=c1->x-c2->x;
-        double dy=c1->y-c2->y;
+        double dx=c1->getX()-c2->getX();
+        double dy=c1->getY()-c2->getY();
         double dist=dx*dx+dy*dy;
-        double combinedRadius=c1->r+c2->r;
+        double combinedRadius=c1->getR()+c2->getR();
+        return dist<combinedRadius*combinedRadius;
+    }
+    else if((typeA=='R' && typeB=='C')||(typeB=='R'&& typeA=='C')){
+        Circle* c = (typeA == 'C') ? static_cast<Circle*>(obj1) : static_cast<Circle*>(obj2);
+        Rectangle* r = (typeA == 'R') ? static_cast<Rectangle*>(obj1) : static_cast<Rectangle*>(obj2);
+
+        double closestX=std::max(r->getX(),std::min(c->getX(), r->getX() + r->getW()));
+        double closestY=std::max(r->getY(),std::min(c->getY(), r->getY() + r->getH()));
+
+        double dx=c->getX()-closestX;
+        double dy=c->getY()-closestY;
+        double dist=dx*dx+dy*dy;
+        double combinedRadius=c->getR();
         return dist<combinedRadius*combinedRadius;
     }
     else if(typeA=='R' && typeB=='R') return true;

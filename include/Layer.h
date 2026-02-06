@@ -1,3 +1,4 @@
+#pragma once
 #ifndef LAYER_H
 #define LAYER_H
 #include <cstdint>
@@ -32,6 +33,10 @@ public:
   double getY() const { return y; }
   double getVX() const { return vx; }
   double getVY() const { return vy; }
+  void setX(double newX) { x = newX; }
+  void setY(double newY) { y = newY; }
+  void setVX(double newVX) { vx = newVX; }
+  void setVY(double newVY) { vy = newVY; }
   Color getColor() const { return color; }
   BoundingBox getBbox() const { return bbox; }
   virtual BoundingBox makebbox(){
@@ -42,12 +47,15 @@ public:
     bb.maxY = y;
     return bb;
   }
-
+void setBbox(BoundingBox newBbox) { bbox = newBbox; }
 protected:
   double x, y, vx, vy;
   Color color;
   double gravity;
   BoundingBox bbox;
+    double mass;
+    double invMass;
+    double friction;
 };
 
 #endif
